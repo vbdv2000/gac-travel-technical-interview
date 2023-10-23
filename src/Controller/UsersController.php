@@ -8,6 +8,7 @@ use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/users')]
@@ -16,8 +17,11 @@ class UsersController extends AbstractController
     #[Route('/user', name: 'app_user')]
     public function index(): Response
     {
+        $form = $this->createForm(UsersType::class, new Users());
+
         return $this->render('sign-up.html', [
             'controller_name' => 'UsersController',
+            '$form' => $form->createView(),
         ]);
     }
 
@@ -25,24 +29,28 @@ class UsersController extends AbstractController
     public function new(Request $request, UsersRepository $usersRepository): Response
     {
         $user = new Users();
-        $user->setActive(true);
-        $now = new \DateTime();
-        $user->setCreatedAt($now);
+        //$user->setActive(true);
+        //$now = new \DateTime();
+        //$user->setCreatedAt($now);
 
 
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request); 
 
+        dump('$form->isSubmitted()', $form->isSubmitted());
+        //dump('$form->isValid()', $form->isValid());
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            dd('$form->getData()', $form->getData());
             $usersRepository->add($user);
             return $this->redirectToRoute('success_register', [], Response::HTTP_SEE_OTHER);
+        } else {
+            dd($form->getErrors());
         }
 
-        return $this->renderForm('sign-up.html', [
+        return $this->render('sign-up.html', [
             'user' => $user,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

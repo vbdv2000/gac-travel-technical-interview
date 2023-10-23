@@ -19,8 +19,6 @@ class UsersType extends AbstractType
         $builder
             ->add('username', TextType::class)
             ->add('password', PasswordType::class)
-            ->add('active', CheckboxType::class)
-            ->add('created_at', DateTimeType::class)
             ;
     }
 
