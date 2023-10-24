@@ -21,7 +21,7 @@ class UsersController extends AbstractController
 
         return $this->render('sign-up.html', [
             'controller_name' => 'UsersController',
-            '$form' => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
