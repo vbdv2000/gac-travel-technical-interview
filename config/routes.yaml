@@ -1,15 +1,15 @@
-index:
+index2:
     path: /index.html
     controller: App\Controller\DefaultController::index
 
-index2:
+index:
     path: /
     controller: App\Controller\DefaultController::index
 
 user_register:
     path: /sign-up.html
     controller: App\Controller\UsersController::index
-    
+
 success_register:
-    path: /success.html
-    controller: App\Controller\UsersController::new
+    path: /success
+    controller: App\Controller\SuccessController::index

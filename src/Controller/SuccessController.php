@@ -1,18 +1,17 @@
 <?php
-
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController extends AbstractController
+class SuccessController extends AbstractController
 {
-    #[Route('/index', name: 'app_default')]
+    /**
+     * @Route("/success", name="success_register")
+     */
     public function index(): Response
     {
-        return $this->render('index.html.twig', [
-            'controller_name' => 'DefaultController',
-        ]);
+        return $this->render('success.html.twig');
     }
 }

@@ -19,7 +19,7 @@ class UsersController extends AbstractController
     {
         $form = $this->createForm(UsersType::class, new Users());
 
-        return $this->render('sign-up.html', [
+        return $this->render('sign-up.html.twig', [
             'controller_name' => 'UsersController',
             'form' => $form->createView(),
         ]);
@@ -38,17 +38,17 @@ class UsersController extends AbstractController
         $form->handleRequest($request); 
 
         dump('$form->isSubmitted()', $form->isSubmitted());
-        //dump('$form->isValid()', $form->isValid());
+        dump('$form->isValid()', $form->isValid());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dd('$form->getData()', $form->getData());
+            //dd('$form->getData()', $form->getData());        
             $usersRepository->add($user);
             return $this->redirectToRoute('success_register', [], Response::HTTP_SEE_OTHER);
         } else {
             dd($form->getErrors());
         }
 
-        return $this->render('sign-up.html', [
+        return $this->render('sign-up.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
