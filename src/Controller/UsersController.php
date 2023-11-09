@@ -29,10 +29,6 @@ class UsersController extends AbstractController
     public function new(Request $request, UsersRepository $usersRepository): Response
     {
         $user = new Users();
-        //$user->setActive(true);
-        //$now = new \DateTime();
-        //$user->setCreatedAt($now);
-
 
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request); 
@@ -55,30 +51,43 @@ class UsersController extends AbstractController
     }
 
 
-    #[Route('/{id}', name: 'app_users_show', methods: ['GET'])]
-    public function show(Users $user): Response
+    public function show(): Response
     {
-        return $this->render('users/show.html.twig', [
-            'user' => $user,
+        $users = $this->getDoctrine()->getRepository(Users::class)->findAll();
+        return $this->render('users.html.twig', [
+            'users' => $users,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_users_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Users $user, UsersRepository $usersRepository): Response
-    {
+    public function update(Request $request, $id) {
+
+        $user = $this->getDoctrine()->getRepository(Users::class);
+        $user = $user->find($id);
+
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $usersRepository->add($user);
-            return $this->redirectToRoute('app_users_index', [], Response::HTTP_SEE_OTHER);
+        if ($form->isSubmitted()) {
+            $em = $this->getDoctrine()->getManager();
+            $user = $form->getData();
+            //$user->setActive($form->get('active')->getData());
+            $user->setPassword($form->get('password')->getData());
+            $em->persist($user);
+            $em->flush();
+
+            //$this->addFlash('alert','Usuario modificado con éxito');
+
+            return $this->redirectToRoute('users');
         }
 
-        return $this->renderForm('users/edit.html.twig', [
+        return $this->render('edit-user.html.twig',[
+            'form' => $form->createView(),
             'user' => $user,
-            'form' => $form,
         ]);
+
     }
+
+
 
     #[Route('/{id}', name: 'app_users_delete', methods: ['POST'])]
     public function delete(Request $request, Users $user, UsersRepository $usersRepository): Response

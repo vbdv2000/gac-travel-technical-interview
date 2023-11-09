@@ -13,3 +13,14 @@ user_register:
 success_register:
     path: /success
     controller: App\Controller\SuccessController::index
+
+app_login:
+    path: /login
+    controller: App\Controller\LoginController::login
+users:
+    path: /users
+    controller: App\Controller\UsersController::show
+
+app_users_edit:
+    path: /users/edit/{id}
+    controller: App\Controller\UsersController::update
