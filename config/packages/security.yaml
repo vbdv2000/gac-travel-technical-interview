@@ -41,5 +41,6 @@ security:
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/sign-up.html$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, role: ROLE_ADMIN }
+        - { path: ^/success_register$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/users$, role: ROLE_ADMIN }
 

@@ -21,3 +21,11 @@ users:
 app_users_edit:
     path: /users/edit/{id}
     controller: App\Controller\UsersController::update
+
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+    
+app_logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
