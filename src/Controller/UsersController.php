@@ -8,6 +8,8 @@ use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
+
 
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -37,7 +39,16 @@ class UsersController extends AbstractController
         dump('$form->isValid()', $form->isValid());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setRoles(['ROLE_USER']);
+            $user->setRoles(['ROLE_ADMIN']);
+            $factory = new PasswordHasherFactory([
+                'common' => ['algorithm' => 'auto'],
+                'memory-hard' => ['algorithm' => 'auto'],
+            ]);
+    
+            $passwordHasher = $factory->getPasswordHasher('common');
+            $hash = $passwordHasher->hash($form->get('password')->getData());
+    
+            $user->setPassword($hash);
             //dd('$form->getData()', $form->getData());        
             $usersRepository->add($user);
             return $this->redirectToRoute('success_register', [], Response::HTTP_SEE_OTHER);
@@ -71,9 +82,17 @@ class UsersController extends AbstractController
         if ($form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
             $user = $form->getData();
-            $user->setRoles(['ROLE_USER']);
+            $user->setRoles(['ROLE_ADMIN']);
             //$user->setActive($form->get('active')->getData());
-            $user->setPassword($form->get('password')->getData());
+            $factory = new PasswordHasherFactory([
+                'common' => ['algorithm' => 'auto'],
+                'memory-hard' => ['algorithm' => 'auto'],
+            ]);
+    
+            $passwordHasher = $factory->getPasswordHasher('common');
+            $hash = $passwordHasher->hash($form->get('password')->getData());
+    
+            $user->setPassword($hash);
             $em->persist($user);
             $em->flush();
 

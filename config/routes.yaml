@@ -14,14 +14,6 @@ success_register:
     path: /success
     controller: App\Controller\SuccessController::index
 
-login:
-    path: /login
-    controller: App\Controller\SecurityController::login
-
-logout:
-    path: /logout
-    controller: App\Controller\SecurityController::logout
-
 users:
     path: /users
     controller: App\Controller\UsersController::show
