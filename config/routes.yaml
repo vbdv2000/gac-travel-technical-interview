@@ -1,10 +1,10 @@
 index2:
     path: /index.html
-    controller: App\Controller\DefaultController::index
+    controller: App\Controller\SecurityController::login
 
 index:
     path: /
-    controller: App\Controller\DefaultController::index
+    controller: App\Controller\SecurityController::login
 
 user_register:
     path: /sign-up.html
@@ -14,9 +14,14 @@ success_register:
     path: /success
     controller: App\Controller\SuccessController::index
 
-app_login:
+login:
     path: /login
-    controller: App\Controller\LoginController::login
+    controller: App\Controller\SecurityController::login
+
+logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
+
 users:
     path: /users
     controller: App\Controller\UsersController::show

@@ -37,6 +37,7 @@ class UsersController extends AbstractController
         dump('$form->isValid()', $form->isValid());
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setRoles(['ROLE_USER']);
             //dd('$form->getData()', $form->getData());        
             $usersRepository->add($user);
             return $this->redirectToRoute('success_register', [], Response::HTTP_SEE_OTHER);
@@ -70,6 +71,7 @@ class UsersController extends AbstractController
         if ($form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
             $user = $form->getData();
+            $user->setRoles(['ROLE_USER']);
             //$user->setActive($form->get('active')->getData());
             $user->setPassword($form->get('password')->getData());
             $em->persist($user);
